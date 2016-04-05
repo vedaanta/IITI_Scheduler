@@ -78,12 +78,15 @@
 				drop: function(event,ui){
                     	$(ui.draggable).detach().css({top:0,left:0}).appendTo($(this));
                     	//alert($(this).attr("id")+"->"+$(ui.draggable).attr("id"));
-                    	$("#classinput").dialog('open');
+                    	
                     	id1=$(this).attr("id");
                     	id2=$(ui.draggable).attr("data-id");
                     	id4=$(ui.draggable).attr("data-type");
                     	id5=$(ui.draggable).attr("data-serial");
-                    	
+                    	if(id4!='-'){
+                    		$("#classinput").dialog('open');
+                    	}
+                    	else go();
                	}
 			});
 			$("ul").droppable({
@@ -113,10 +116,12 @@
 								data : {
 									batch_id: id3,
 									year: $("#year :selected").val()
+								},
+								complete: function () {
+									location.reload(true);
 								}
 							});
 							$("#resetdialog").dialog('close');
-							location.reload(true);
 						}
 					}
 				]
