@@ -21,14 +21,15 @@
 			border: 1px solid black;
 		}
 		td {
-			width:75px;
-			height:75px;
+			width:80px;
+			height:80px;
 			border: 1px solid black;
 			text-align: center;
 		}
 		ul {
 			border: 1px solid black;
-			height:200px;
+			height:300px;
+			min-width: 50px;
 			float:right;
 			text-align: center;
 			overflow:scroll;
@@ -146,6 +147,7 @@
 				modal:true,
 				autoOpen:false
 			});
+			conflict();
 		});
 
 		function go(){
@@ -160,19 +162,52 @@
 					serial: id5,
 					classroom : id6
 				},
-				success : function (response){
-					document.getElementById("conflict").innerHTML=response;
-				},
 			    error: function() {
 			        alert('Something Went Wrong');
+			    },
+			    complete: function(){
+					conflict();
 			    }
 			});
+			
 		}
 
 		function reset(){
 			$("#resetdialog").dialog('open');
 		}
 
+		function conflict(){
+			$.ajax({
+				type:'POST',
+				url:'classroom.jsp',
+				data:{
+					batch_id: id3
+				},
+				success:function(response){
+					document.getElementById("conclass").innerHTML=response;
+				}
+			});
+			$.ajax({
+				type:'POST',
+				url:'teacher.jsp',
+				data:{
+					batch_id: id3
+				},
+				success:function(response){
+					document.getElementById("conteacher").innerHTML=response;
+				}
+			});
+			$.ajax({
+				type:'POST',
+				url:'student.jsp',
+				data:{
+					batch_id: id3
+				},
+				success:function(response){
+					document.getElementById("constudent").innerHTML=response;
+				}
+			});
+		}
 		
 
 	</script>
@@ -192,14 +227,28 @@
 		SELECT batch_name from batch where batch_id="<%= name %>";
 	</sql:query>
 
-	<c:forEach var="row" items="${result.rows}">
-		<c:out value="${row.batch_name}"/></br>
-	</c:forEach>
+	
 
 	<table>
 	<%! int i,j; 
 	    String slotid;
 	%>
+	<tr>
+		<td>
+		<c:forEach var="row" items="${result.rows}">
+			<c:out value="${row.batch_name}"/></br>
+		</c:forEach>
+		</td>
+		<td>8:00-9:00</td>
+		<td>9:00-9:00</td>
+		<td>10:00-9:00</td>
+		<td>11:00-12:00</td>
+		<td>12:00-1:00</td>
+		<td>1:00-2:00</td>
+		<td>2:00-3:00</td>
+		<td>3:00-4:00</td>
+		<td>4:00-5:00</td>
+	</tr>
 	<% 
 		for(int i=0;i<5;i++){
 			out.print("<tr>\n");
@@ -231,8 +280,10 @@
 			<li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/> (<c:out value="${row.type}"/>)</li>
 		</c:forEach>
 	</ul>
-
-	<textarea rows="20" cols="150" id="conflict"></textarea>
+	<textarea rows="25" cols="52" id="constudent"></textarea>
+	<textarea rows="25" cols="52" id="conteacher"></textarea>
+	<textarea rows="25" cols="52" id="conclass"></textarea>
+	
 
 	<input type="button" value="RESET" onclick="reset()">
 

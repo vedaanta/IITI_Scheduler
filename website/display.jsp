@@ -52,7 +52,7 @@
 		SELECT * from teacher where course_id="<%= course_id %>";
 	</sql:query>
 
-	<b>Teahcer</b> : 
+	<b>Teacher</b> : 
 	<c:forEach var="row" items="${result.rows}">
 		<c:out value="${row.course_instructor}"/></br>
 	</c:forEach>
