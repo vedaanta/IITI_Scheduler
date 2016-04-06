@@ -51,12 +51,9 @@
 			$("li").css('cursor','pointer').click(function(){
 				$.ajax({
 					type: 'POST',
-					url: 'display.jsp',
+					url: 'displayexam.jsp',
 					data:{
 						course_id: $(this).attr("data-id"),
-						serial: $(this).attr("data-serial"),
-						type: $(this).attr("data-type"),
-						batch_id: id3
 					},
 					success: function (response){
 						document.getElementById("courseinfo").innerHTML=response;
@@ -78,16 +75,9 @@
 				hoverClass:'ui-state-highlight',
 				drop: function(event,ui){
                     	$(ui.draggable).detach().css({top:0,left:0}).appendTo($(this));
-                    	//alert($(this).attr("id")+"->"+$(ui.draggable).attr("id"));
-                    	
                     	id1=$(this).attr("id");
                     	id2=$(ui.draggable).attr("data-id");
-                    	id4=$(ui.draggable).attr("data-type");
-                    	id5=$(ui.draggable).attr("data-serial");
-                    	if(id4!='-'){
-                    		$("#classinput").dialog('open');
-                    	}
-                    	else go();
+                    	$("#classinput").dialog('open');
                	}
 			});
 			$("ul").droppable({
@@ -95,12 +85,8 @@
 				hoverClass:'ui-state-highlight',
 				drop: function(event,ui){
                     	$(ui.draggable).detach().css({top:0,left:0}).appendTo($(this));
-                    	//alert($(this).attr("id")+"->"+$(ui.draggable).attr("id"));
                     	id1=$(this).attr("id");
                     	id2=$(ui.draggable).attr("data-id");
-                    	id4=$(ui.draggable).attr("data-type");
-                    	id5=$(ui.draggable).attr("data-serial");
-                    	//alert(id1+id2+id3+id4+id5);
                     	go();
                	}
 			});
@@ -112,12 +98,7 @@
 						text:"Yes",
 						click:function(){
 							$.ajax({
-								type : 'POST',
-								url : 'generate.jsp',
-								data : {
-									batch_id: id3,
-									year: $("#year :selected").val()
-								},
+								url : 'generateexam.jsp',
 								complete: function () {
 									location.reload(true);
 								}
@@ -159,13 +140,10 @@
 		function go(){
 			$.ajax({
 				type : 'POST',
-				url : 'next.jsp',
+				url : 'nextexam.jsp',
 				data : {
 					timeslot_id : id1 ,
 					course_id : id2,
-					batch_id: id3,
-					type: id4,
-					serial: id5,
 					classroom : id6
 				},
 			    complete: function(){
@@ -183,7 +161,7 @@
 	        	$("#conflictstudent").dialog('open');
 	        	$.ajax({
 	        		type:'POST',
-	        		url:'liststudent.jsp',
+	        		url:'liststudentexam.jsp',
 	        		data:{
 	        			course1:$(this).attr("data-c1"),
 	        			course2:$(this).attr("data-c2")
@@ -194,35 +172,17 @@
 	        	});
 	    });
 
-		
-
 		function conflict(){
 			$.ajax({
 				type:'POST',
-				url:'classroom.jsp',
-				data:{
-					batch_id: id3
-				},
+				url:'classroomexam.jsp',
 				success:function(response){
 					document.getElementById("conclass").innerHTML=response;
 				}
 			});
 			$.ajax({
 				type:'POST',
-				url:'teacher.jsp',
-				data:{
-					batch_id: id3
-				},
-				success:function(response){
-					document.getElementById("conteacher").innerHTML=response;
-				}
-			});
-			$.ajax({
-				type:'POST',
-				url:'student.jsp',
-				data:{
-					batch_id: id3
-				},
+				url:'studentexam.jsp',
 				success:function(response){
 					document.getElementById("constudent").innerHTML=response;
 				}
@@ -240,49 +200,40 @@
      url="jdbc:mysql://localhost/mydb"
      user="root"  password=";"/>
 
-     <% String name = request.getParameter("batchselector"); %> 
-     <script>id3="<%= name %>";</script>
-
-     <sql:query dataSource="${snapshot}" var="result">
-		SELECT batch_name from batch where batch_id="<%= name %>";
-	</sql:query>
-
-	
-
 	<table>
 	<%! int i,j; 
 	    String slotid;
 	%>
 	<tr>
 		<td>
-		<c:forEach var="row" items="${result.rows}">
-			<c:out value="${row.batch_name}"/></br>
-		</c:forEach>
+		EXAM
 		</td>
-		<td>8:00-9:00</td>
-		<td>9:00-9:00</td>
-		<td>10:00-9:00</td>
-		<td>11:00-12:00</td>
-		<td>12:00-1:00</td>
-		<td>1:00-2:00</td>
-		<td>2:00-3:00</td>
-		<td>3:00-4:00</td>
-		<td>4:00-5:00</td>
+		<td>Morning Session</td>
+		<td>Afetrnoon Session</td>
 	</tr>
 	<% 
-		for(int i=0;i<5;i++){
+		for(int i=0;i<8;i++){
 			out.print("<tr>\n");
-			if(i==0)out.print("<td>Monday</td>");
-			if(i==1)out.print("<td>Tuesday</td>");
-			if(i==2)out.print("<td>Wednesday</td>");
-			if(i==3)out.print("<td>Thrusday</td>");
-			if(i==4)out.print("<td>Friday</td>");
-			for(int j=0;j<9;j++){
-				out.print("<td class=\"drop\" id=\"slot" + (9*i+j) + "\" ><span style='width:0px;'></span>");
-				slotid="slot"+(9*i+j);	
-			%><sql:query dataSource="${snapshot}" var="result">
-					SELECT * from master where batch_id="<%= name %>" && timeslot_id="<%= slotid %>";
-				</sql:query><c:forEach var="row" items="${result.rows}"><li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/>  (<c:out value="${row.type}"/>)</li></c:forEach><%
+			if(i==2)out.print("<td>Monday</td>");
+			if(i==3)out.print("<td>Tuesday</td>");
+			if(i==4)out.print("<td>Wednesday</td>");
+			if(i==5)out.print("<td>Thrusday</td>");
+			if(i==6)out.print("<td>Friday</td>");
+			if(i==0||i==7)out.print("<td>Saturday</td>");
+			if(i==1)out.print("<td>Sunday</td>");
+			for(int j=0;j<2;j++){
+				out.print("<td class=\"drop\" id=\"slot" + (2*i+j) + "\" ><span style='width:0px;'></span>");
+				slotid="slot"+(2*i+j);	
+			%>
+			<sql:query dataSource="${snapshot}" var="result">
+					SELECT * from slave where timeslot_id="<%= slotid %>";
+			</sql:query>
+			
+			<c:forEach var="row" items="${result.rows}">
+				<li class="drag" data-id="<c:out value="${row.course_id}"/>">
+				<c:out value="${row.course_id}"/>
+				</li>
+			</c:forEach><%
 				out.print("</td>\n");
 			}
 			out.print("</tr>\n");
@@ -292,38 +243,30 @@
 
 
 	<sql:query dataSource="${snapshot}" var="result">
-		SELECT * from master where batch_id="<%= name %>" and timeslot_id is null
+		SELECT * from slave where timeslot_id is null
 	</sql:query>
 
 	<ul id="list">
 		<c:forEach var="row" items="${result.rows}">
-			<li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/> (<c:out value="${row.type}"/>)</li>
+			<li class="drag" data-id="<c:out value="${row.course_id}"/>">
+			<c:out value="${row.course_id}"/>
+			</li>
 		</c:forEach>
 	</ul>
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="constudent"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conteacher"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conclass"></div >
-	
+
+	<div style="height:50%;width:50%;bottom:0; float: left;border:1px solid black;" id="constudent"></div>
+	<div style="height:50%;width:50%;bottom:0; float: left;border:1px solid black;" id="conclass"></div>
 
 	<input type="button" value="RESET" onclick="reset()">
 
 </body>
 
 <div id="resetdialog" title="Are you sure?">
-	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All courses for this batch will be removed from all slots!! If yes,please select the current year for this batch and press the button below.</p>
-	<p>
-		<select name="year" id="year">
-			<option value="1">1</optoin>
-			<option value="2">2</optoin>
-			<option value="3">3</optoin>
-			<option value="4">4</optoin>
-			<option value="6">Other</optoin>
-		</select>
-	</p>
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All courses will be removed from all slots!! If yes,please press the button below.</p>
 </div>
 
 <div id="classinput" title="Enter Classroom">
-	<p>Provide the classroom where this course lectures will be held below:</p>
+	<p>Provide the classroom where this course exam will be held below:</p>
 	<input type="text" id="classroom"/>
 </div>
 

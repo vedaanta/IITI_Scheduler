@@ -43,5 +43,8 @@
 	</select>
 	<input type="submit" value="Submit"/>
 	</form>
+
+	<a href="swagexam.jsp">Go! Go! Go!</a>
+
 </body>
 </html>
