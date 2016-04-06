@@ -147,6 +147,10 @@
 				modal:true,
 				autoOpen:false
 			});
+			$("#conflictstudent").dialog({
+				modal:true,
+				autoOpen:false
+			});
 			conflict();
 		});
 
@@ -162,9 +166,6 @@
 					serial: id5,
 					classroom : id6
 				},
-			    error: function() {
-			        alert('Something Went Wrong');
-			    },
 			    complete: function(){
 					conflict();
 			    }
@@ -175,6 +176,21 @@
 		function reset(){
 			$("#resetdialog").dialog('open');
 		}
+
+		$(document).on('click', '.liststudent', function () {
+	        	$("#conflictstudent").dialog('open');
+	        	$.ajax({
+	        		type:'POST',
+	        		url:'liststudent.jsp',
+	        		data:{
+	        			course1:$(this).attr("data-c1"),
+	        			course2:$(this).attr("data-c2")
+	        		},
+	        		success:function (response){
+	        			document.getElementById("conflictstudent").innerHTML=response;
+	        		}
+	        	});
+	    });
 
 		function conflict(){
 			$.ajax({
@@ -280,9 +296,9 @@
 			<li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/> (<c:out value="${row.type}"/>)</li>
 		</c:forEach>
 	</ul>
-	<textarea rows="25" cols="52" id="constudent"></textarea>
-	<textarea rows="25" cols="52" id="conteacher"></textarea>
-	<textarea rows="25" cols="52" id="conclass"></textarea>
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="constudent"></div >
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conteacher"></div >
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conclass"></div >
 	
 
 	<input type="button" value="RESET" onclick="reset()">
@@ -308,6 +324,8 @@
 </div>
 
 <div id="courseinfo" title="Course Information"></div>
+
+<div id="conflictstudent" title="List of Students"></div>
 
 </html>
 
