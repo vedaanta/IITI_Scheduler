@@ -240,24 +240,38 @@
      url="jdbc:mysql://localhost/mydb"
      user="root"  password=";"/>
 
-     <% String name = request.getParameter("batchselector"); %> 
-     <script>id3="<%= name %>";</script>
-
-     <sql:query dataSource="${snapshot}" var="result">
-		SELECT batch_name from batch where batch_id="<%= name %>";
-	</sql:query>
-
-	
-
 	<table>
 	<%! int i,j; 
 	    String slotid;
 	%>
 	<tr>
 		<td>
-		<c:forEach var="row" items="${result.rows}">
-			<c:out value="${row.batch_name}"/></br>
-		</c:forEach>
+
+			<% String name = request.getParameter("myselect");
+     if(name==null)name=request.getParameter("batch");
+     pageContext.setAttribute("qwer", name); 
+      %> 
+
+     <sql:query dataSource="${snapshot}" var="result">
+		SELECT * from batch
+	</sql:query>
+	<form action="swag.jsp" method="get">
+	<select name="myselect" id="myselect" onchange="this.form.submit()">
+	<c:forEach var="row" items="${result.rows}">
+	<c:set var="temp" value="${row.batch_id}"/>
+	<c:choose>
+		 <c:when test="${ qwer == temp }">
+		 	<option value="<c:out value="${row.batch_id}"/>" selected><c:out value="${row.batch_name}"/></option>
+		 </c:when>
+		 <c:otherwise>
+		 	<option value="<c:out value="${row.batch_id}"/>"><c:out value="${row.batch_name}"/></option>
+		 </c:otherwise>
+	</c:choose>
+	</c:forEach>
+	 </select>
+	</form>
+
+     <script>id3="<%= name %>";</script>
 		</td>
 		<td>8:00-9:00</td>
 		<td>9:00-9:00</td>

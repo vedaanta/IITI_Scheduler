@@ -22,29 +22,14 @@
      url="jdbc:mysql://localhost/mydb"
      user="root"  password=";"/>
 
-     
-
      <sql:query dataSource="${snapshot}" var="result">
-		SELECT * from batch;
-	
+		SELECT min(batch_id) as batchid from batch
 	</sql:query>
-	<form method="GET" action="swag.jsp">
-	<select name="batchselector" id="batchselector">
-	<%! int flag=1; %>
-	<c:forEach var="row" items="${result.rows}">
-	<% if(flag==1){ %>
-		<option value="${row.batch_id}" selected><c:out value="${row.batch_name}"/></option>
-		<% flag=0; 
-	}
-	else{ %> 
-		<option value="${row.batch_id}" ><c:out value="${row.batch_name}"/></option>
-	<% } %>
-	</c:forEach>
-	</select>
-	<input type="submit" value="Submit"/>
-	</form>
 
-	<a href="swagexam.jsp">Go! Go! Go!</a>
+	<c:forEach var="row" items="${result.rows}">
+		<a href="swag.jsp?batch=<c:out value="${row.batchid}"/>">Classroom</a>
+	</c:forEach>
+	<a href="swagexam.jsp">Exam</a>
 
 </body>
 </html>
