@@ -16,27 +16,95 @@
 	</title>
 
 	<style>
+		body {
+			padding: 0px;
+			margin: 0px;
+			background-color: #a0c6dc;
+		}
+		div.banner {
+			position: relative;
+			display: block;
+			margin: 0px;
+			padding: 0.5%;
+			background-color: #19384a;
+			width: 100%;
+			height: 10%;
+		}
+		div.banner img {
+			height: 100%;
+		}
 		table{
 			float:left;
-			border: 1px solid black;
+			border: 5px solid #19384a;
+			background-color: #a0c6dc;
+		}
+		th {
+			background-color: #19384a;
+			color: white;
+			text-weight: bold;
 		}
 		td {
 			width:80px;
 			height:80px;
-			border: 1px solid black;
+			border: 2px solid #19384a;
 			text-align: center;
+			background-color: white; 
+			font-weight: bold;
 		}
 		ul {
-			border: 1px solid black;
-			height:300px;
+			border: 1px solid #19384a;
+			height:69.5%;
 			min-width: 50px;
-			float:right;
+			width: 10%;
 			text-align: center;
 			overflow:scroll;
+			background-color: white;
+			padding: 0px;
+			float: left;
+			margin: 0px;
+			clear: right;
 		}
 		li {list-style-type: none;}
 		.ui-dialog-titlebar-close {
 		  visibility: hidden;
+		}
+		li:hover {
+			background-color: #a0c6dc;
+		}
+		input[type=button] {
+			border: 2px solid #19384a;
+			color: white;
+			background-color: #19384a;
+			transition: border 0.25s;
+			margin: 0px;
+			padding: 10px;
+		}
+		input[type=button]:hover {
+			border: 2px solid white;
+		}
+		input[type=submit] {
+			border: 2px solid #19384a;
+			color: white;
+			background-color: #19384a;
+			transition: border 0.25s;
+			margin: 0px;
+			padding: 10px;
+		}
+		input[type=submit]:hover {
+			border: 2px solid white;
+		}
+		div.heading {
+			display:block;
+			background-color: #19384a;
+			color: white;
+			font-size: 20px;
+			font-weight: bold;
+			border: 5px solid #19384a;
+		}
+		form {
+			display: inline;
+			margin: 0px;
+			padding: 0px;
 		}
 	</style>
 
@@ -177,7 +245,7 @@
 				type:'POST',
 				url:'classroomexam.jsp',
 				success:function(response){
-					document.getElementById("conclass").innerHTML=response;
+					document.getElementById("conclass").innerHTML="<b>Conflicts in Classroom Assignment: </b><br>"+response;
 				}
 			});
 			
@@ -188,14 +256,14 @@
 					batch_id: id3
 				},
 				success:function(response){
-					document.getElementById("conteacher").innerHTML=response;
+					document.getElementById("conteacher").innerHTML="<b>Conflicts in Instructor Availablility: </b><br>"+response;
 				}
 			});
 			$.ajax({
 				type:'POST',
 				url:'studentexam.jsp',
 				success:function(response){
-					document.getElementById("constudent").innerHTML=response;
+					document.getElementById("constudent").innerHTML="<b>Conflicts in Student's Schedule: </b><br>"+response;
 				}
 			});
 		}
@@ -207,6 +275,7 @@
 
 
 <body>
+<div class="banner"><img src="images/logo.png"/></div>
 	<sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
      url="jdbc:mysql://localhost/mydb"
      user="root"  password=";"/>
@@ -216,11 +285,11 @@
 	    String slotid;
 	%>
 	<tr>
-		<td>
+		<th>
 		EXAM
-		</td>
-		<td>Morning Session</td>
-		<td>Afetrnoon Session</td>
+		</th>
+		<th>Morning Session</th>
+		<th>Afternoon Session</th>
 	</tr>
 	<% 
 		for(int i=0;i<8;i++){
@@ -228,7 +297,7 @@
 			if(i==2)out.print("<td>Monday</td>");
 			if(i==3)out.print("<td>Tuesday</td>");
 			if(i==4)out.print("<td>Wednesday</td>");
-			if(i==5)out.print("<td>Thrusday</td>");
+			if(i==5)out.print("<td>Thursday</td>");
 			if(i==6)out.print("<td>Friday</td>");
 			if(i==0||i==7)out.print("<td>Saturday</td>");
 			if(i==1)out.print("<td>Sunday</td>");
@@ -256,7 +325,14 @@
 	<sql:query dataSource="${snapshot}" var="result">
 		SELECT * from slave where timeslot_id is null
 	</sql:query>
-
+	<div class="heading">Courses
+	<input type="button" value="RESET" onclick="reset()">
+	<form action="printexam.jsp" method='get'>
+	<input type="submit" value="PRINT"/>
+	</form>
+	<form action="index.jsp" method='get'>
+	<input type="submit" value="EXIT"/>
+	</form></div>
 	<ul id="list">
 		<c:forEach var="row" items="${result.rows}">
 			<li class="drag" data-id="<c:out value="${row.course_id}"/>">
@@ -265,19 +341,13 @@
 		</c:forEach>
 	</ul>
 
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="constudent"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conteacher"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conclass"></div >
+	<div style="height:33%;width:321px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="constudent"></div >
+	<div style="height:33%;width:321px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="conteacher"></div >
+	<div style="height:33%;width:321px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="conclass"></div >
 
-	<input type="button" value="RESET" onclick="reset()">
-	<form action="printexam.jsp" method='get'>
-	<input type="submit" value="PRINT"/>
-	</form>
-
-</body>
 
 <div id="resetdialog" title="Are you sure?">
-	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All courses will be removed from all slots!! If yes,please press the button below.</p>
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All courses will be removed from all slots!! If yes, please press the button below.</p>
 </div>
 
 <div id="classinput" title="Enter Classroom">
@@ -288,7 +358,7 @@
 <div id="courseinfo" title="Course Information"></div>
 
 <div id="conflictstudent" title="List of Students"></div>
-
+</body>
 </html>
 
 
