@@ -274,14 +274,15 @@
      <script>id3="<%= name %>";</script>
 		</td>
 		<td>8:00-9:00</td>
-		<td>9:00-9:00</td>
-		<td>10:00-9:00</td>
+		<td>9:00-10:00</td>
+		<td>10:00-11:00</td>
 		<td>11:00-12:00</td>
 		<td>12:00-1:00</td>
 		<td>1:00-2:00</td>
 		<td>2:00-3:00</td>
 		<td>3:00-4:00</td>
 		<td>4:00-5:00</td>
+		<td>5:00-6:00</td>
 	</tr>
 	<% 
 		for(int i=0;i<5;i++){
@@ -291,9 +292,9 @@
 			if(i==2)out.print("<td>Wednesday</td>");
 			if(i==3)out.print("<td>Thrusday</td>");
 			if(i==4)out.print("<td>Friday</td>");
-			for(int j=0;j<9;j++){
-				out.print("<td class=\"drop\" id=\"slot" + (9*i+j) + "\" ><span style='width:0px;'></span>");
-				slotid="slot"+(9*i+j);	
+			for(int j=0;j<10;j++){
+				out.print("<td class=\"drop\" id=\"slot" + (10*i+j) + "\" ><span style='width:0px;'></span>");
+				slotid="slot"+(10*i+j);	
 			%><sql:query dataSource="${snapshot}" var="result">
 					SELECT * from master where batch_id="<%= name %>" && timeslot_id="<%= slotid %>";
 				</sql:query><c:forEach var="row" items="${result.rows}"><li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/>  (<c:out value="${row.type}"/>)</li></c:forEach><%
@@ -320,7 +321,10 @@
 	
 
 	<input type="button" value="RESET" onclick="reset()">
-
+	<form action="print.jsp" method='get'>
+	<input hidden="hidden" value="<%= name %>" name="batchprint"/>
+	<input type="submit" value="PRINT"/>
+	</form>
 </body>
 
 <div id="resetdialog" title="Are you sure?">
@@ -336,6 +340,8 @@
 	</p>
 </div>
 
+</html>
+
 <div id="classinput" title="Enter Classroom">
 	<p>Provide the classroom where this course lectures will be held below:</p>
 	<input type="text" id="classroom"/>
@@ -344,10 +350,6 @@
 <div id="courseinfo" title="Course Information"></div>
 
 <div id="conflictstudent" title="List of Students"></div>
-
-</html>
-
-
    
 
 

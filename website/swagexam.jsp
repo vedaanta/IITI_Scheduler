@@ -180,6 +180,17 @@
 					document.getElementById("conclass").innerHTML=response;
 				}
 			});
+			
+			$.ajax({
+				type:'POST',
+				url:'teacherexam.jsp',
+				data:{
+					batch_id: id3
+				},
+				success:function(response){
+					document.getElementById("conteacher").innerHTML=response;
+				}
+			});
 			$.ajax({
 				type:'POST',
 				url:'studentexam.jsp',
@@ -254,10 +265,14 @@
 		</c:forEach>
 	</ul>
 
-	<div style="height:50%;width:50%;bottom:0; float: left;border:1px solid black;" id="constudent"></div>
-	<div style="height:50%;width:50%;bottom:0; float: left;border:1px solid black;" id="conclass"></div>
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="constudent"></div >
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conteacher"></div >
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conclass"></div >
 
 	<input type="button" value="RESET" onclick="reset()">
+	<form action="printexam.jsp" method='get'>
+	<input type="submit" value="PRINT"/>
+	</form>
 
 </body>
 
