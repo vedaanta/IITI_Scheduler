@@ -15,9 +15,85 @@
 		IITI SCHEDULER
 	</title>
 
+	<style>
+	div.banner {
+		position: relative;
+		display: block;
+		margin: 0px;
+		padding: 0.5%;
+		background-color: #19384a;
+		width: 100%;
+		height: 15%;
+	}
+	
+	body {
+		padding: 0px;
+		margin: 0px;
+		overflow: hidden;
+	}
+	
+	div.banner img {
+		height: 100%;
+	}
+	
+	ul {
+		list-style-type: none;
+		position: absolute;
+		width: 60%;
+		height: 60%;
+		top: 20%;
+		left: 20%;
+	}
+	
+	li {
+		display: block;
+		float: left;
+		background-color: #a0c6dc;
+		width: 40%;
+		height: 80%;
+		margin: 1%;
+		border: 5px solid #a0c6dc;
+		border-radius: 20px;
+		transition: background-color 0.5s;
+	}
+	 li a{
+		 display: block;
+		 width: 100%;
+		 height: 100%;
+		 color: black;
+	 }
+	 
+	 li img{
+		 display: block;
+		 width: 100%;
+		 height: 60%;
+	 }
+	li:hover{
+		background-color: white;
+	}
+	
+	div.butt {
+		position: absolute;
+		display: block;
+		width: 10%;
+		height: 50%;
+		top: 20%;
+		left: 20%;
+	}
+	
+	div.butt2 {
+		position: absolute;
+		display: block;
+		width: 10%;
+		height: 50%;
+		top: 20%;
+		left: 61%;
+	}
+	</style>
 </head>
 
 <body>
+<div class="banner"><img src="images/logo.png"/></div>
 <sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
      url="jdbc:mysql://localhost/mydb"
      user="root"  password=";"/>
@@ -27,9 +103,9 @@
 	</sql:query>
 
 	<c:forEach var="row" items="${result.rows}">
-		<a href="swag.jsp?batch=<c:out value="${row.batchid}"/>">Classroom</a>
+		<ul><li><a href="swag.jsp?batch=<c:out value="${row.batchid}"/>"><div class="butt"><img src="images/book.png"/><center><b>Classroom</b></center></div></a></li>
 	</c:forEach>
-	<a href="swagexam.jsp">Exam</a>
+	<li><a href="swagexam.jsp"><div class="butt2"><img src="images/clipboard.svg"/><center><b>Examination</b></center></div></li></ul>
 
 </body>
 </html>

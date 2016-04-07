@@ -45,7 +45,7 @@
 		<% if( (year[0]==num) || (num=='7' && year[0]=='6') ) { %>
 
 			<c:set var="cnt" value="${row.lecture_hour}"/>
-			<% count=(int)pageContext.getAttribute("cnt"); 
+			<% count=Integer.parseInt(pageContext.getAttribute("cnt").toString()); 
 				for(int i=count;i>0;i--){
 				%>
 
@@ -58,7 +58,7 @@
 			%>
 
 			<c:set var="cnt" value="${row.tutorial_hour}"/>
-			<% count=(int)pageContext.getAttribute("cnt"); 
+			<% count=Integer.parseInt(pageContext.getAttribute("cnt").toString()); 
 				for(int i=count;i>0;i--){
 				%>
 
@@ -71,7 +71,7 @@
 			%>
 
 			<c:set var="cnt" value="${row.practical_hour}"/>
-			<% count=(int)pageContext.getAttribute("cnt"); 
+			<% count=Integer.parseInt(pageContext.getAttribute("cnt").toString()); 
 				for(int i=count;i>0;i--){
 				%>
 

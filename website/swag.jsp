@@ -16,27 +16,88 @@
 	</title>
 
 	<style>
+		body {
+			padding: 0px;
+			margin: 0px;
+			background-color: #a0c6dc;
+		}
+		div.banner {
+			position: relative;
+			display: block;
+			margin: 0px;
+			padding: 0.5%;
+			background-color: #19384a;
+			width: 100%;
+			height: 10%;
+		}
+		div.banner img {
+			height: 100%;
+		}
 		table{
 			float:left;
-			border: 1px solid black;
+			border: 5px solid #19384a;
+			background-color: #a0c6dc;
+		}
+		th {
+			background-color: #19384a;
+			color: white;
+			text-weight: bold;
 		}
 		td {
 			width:80px;
 			height:80px;
-			border: 1px solid black;
+			border: 2px solid #19384a;
 			text-align: center;
+			background-color: white; 
+			font-weight: bold;
 		}
 		ul {
-			border: 1px solid black;
+			border: 1px solid #19384a;
 			height:300px;
 			min-width: 50px;
+			width: 10%;
 			float:right;
 			text-align: center;
 			overflow:scroll;
+			background-color: white;
+			padding: 0px;
+			float: left;
+			margin: 0px;
 		}
-		li {list-style-type: none;}
+		li {
+			list-style-type: none;
+		}
 		.ui-dialog-titlebar-close {
 		  visibility: hidden;
+		}
+		li:hover {
+			background-color: #a0c6dc;
+		}
+		input[type=button] {
+			border: 2px solid #19384a;
+			color: white;
+			background-color: #19384a;
+			transition: border 0.25s;
+		}
+		input[type=button]:hover {
+			border: 2px solid white;
+		}
+		input[type=submit] {
+			border: 2px solid #19384a;
+			color: white;
+			background-color: #19384a;
+			transition: border 0.25s;
+		}
+		input[type=submit]:hover {
+			border: 2px solid white;
+		}
+		div.heading {
+			display:block;
+			background-color: #19384a;
+			color: white;
+			font-size: 20px;
+			font-weight: bold;
+			border: 5px solid #19384a;
 		}
 	</style>
 
@@ -117,6 +178,9 @@
 								data : {
 									batch_id: id3,
 									year: $("#year :selected").val()
+								},
+								error: function(jqXHR,exception){ 
+									alert("Error: Ready State: "+jqXHR.readyState+" Status: "+jqXHR.status);
 								},
 								complete: function () {
 									location.reload(true);
@@ -236,6 +300,7 @@
 
 
 <body>
+<div class="banner"><img src="images/logo.png"/></div>
 	<sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
      url="jdbc:mysql://localhost/mydb"
      user="root"  password=";"/>
@@ -245,7 +310,7 @@
 	    String slotid;
 	%>
 	<tr>
-		<td>
+		<th>
 
 			<% String name = request.getParameter("myselect");
      if(name==null)name=request.getParameter("batch");
@@ -272,17 +337,17 @@
 	</form>
 
      <script>id3="<%= name %>";</script>
-		</td>
-		<td>8:00-9:00</td>
-		<td>9:00-10:00</td>
-		<td>10:00-11:00</td>
-		<td>11:00-12:00</td>
-		<td>12:00-1:00</td>
-		<td>1:00-2:00</td>
-		<td>2:00-3:00</td>
-		<td>3:00-4:00</td>
-		<td>4:00-5:00</td>
-		<td>5:00-6:00</td>
+		</th>
+		<th>8:00-9:00</th>
+		<th>9:00-10:00</th>
+		<th>10:00-11:00</th>
+		<th>11:00-12:00</th>
+		<th>12:00-1:00</th>
+		<th>1:00-2:00</th>
+		<th>2:00-3:00</th>
+		<th>3:00-4:00</th>
+		<th>4:00-5:00</th>
+		<th>5:00-6:00</th>
 	</tr>
 	<% 
 		for(int i=0;i<5;i++){
@@ -309,17 +374,16 @@
 	<sql:query dataSource="${snapshot}" var="result">
 		SELECT * from master where batch_id="<%= name %>" and timeslot_id is null
 	</sql:query>
-
+	
+	<div class="heading">Courses</div>
 	<ul id="list">
 		<c:forEach var="row" items="${result.rows}">
 			<li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/> (<c:out value="${row.type}"/>)</li>
 		</c:forEach>
 	</ul>
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="constudent"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conteacher"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;" id="conclass"></div >
-	
-
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;background-color:white" id="constudent"></div >
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;background-color:white" id="conteacher"></div >
+	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;background-color:white" id="conclass"></div >
 	<input type="button" value="RESET" onclick="reset()">
 	<form action="print.jsp" method='get'>
 	<input hidden="hidden" value="<%= name %>" name="batchprint"/>
