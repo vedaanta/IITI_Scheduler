@@ -53,7 +53,7 @@
 		}
 		ul {
 			border: 1px solid #19384a;
-			height:300px;
+			height:394px;
 			min-width: 50px;
 			width: 10%;
 			float:right;
@@ -63,6 +63,7 @@
 			padding: 0px;
 			float: left;
 			margin: 0px;
+			clear: right;
 		}
 		li {
 			list-style-type: none;
@@ -78,6 +79,8 @@
 			color: white;
 			background-color: #19384a;
 			transition: border 0.25s;
+			margin: 0px;
+			padding: 10px;
 		}
 		input[type=button]:hover {
 			border: 2px solid white;
@@ -87,6 +90,8 @@
 			color: white;
 			background-color: #19384a;
 			transition: border 0.25s;
+			margin: 0px;
+			padding: 10px;
 		}
 		input[type=submit]:hover {
 			border: 2px solid white;
@@ -98,6 +103,11 @@
 			font-size: 20px;
 			font-weight: bold;
 			border: 5px solid #19384a;
+		}
+		form {
+			display: inline;
+			margin: 0px;
+			padding: 0px;
 		}
 	</style>
 
@@ -268,7 +278,7 @@
 					batch_id: id3
 				},
 				success:function(response){
-					document.getElementById("conclass").innerHTML=response;
+					document.getElementById("conclass").innerHTML="<b>Conflicts in Classroom Assignment: </b><br>"+response;
 				}
 			});
 			$.ajax({
@@ -278,7 +288,7 @@
 					batch_id: id3
 				},
 				success:function(response){
-					document.getElementById("conteacher").innerHTML=response;
+					document.getElementById("conteacher").innerHTML="<b>Conflicts in Instructor Availablility: </b><br>"+response;
 				}
 			});
 			$.ajax({
@@ -288,7 +298,7 @@
 					batch_id: id3
 				},
 				success:function(response){
-					document.getElementById("constudent").innerHTML=response;
+					document.getElementById("constudent").innerHTML="<b>Conflicts in Student's Schedule: </b><br>"+response;
 				}
 			});
 		}
@@ -355,7 +365,7 @@
 			if(i==0)out.print("<td>Monday</td>");
 			if(i==1)out.print("<td>Tuesday</td>");
 			if(i==2)out.print("<td>Wednesday</td>");
-			if(i==3)out.print("<td>Thrusday</td>");
+			if(i==3)out.print("<td>Thursday</td>");
 			if(i==4)out.print("<td>Friday</td>");
 			for(int j=0;j<10;j++){
 				out.print("<td class=\"drop\" id=\"slot" + (10*i+j) + "\" ><span style='width:0px;'></span>");
@@ -375,20 +385,23 @@
 		SELECT * from master where batch_id="<%= name %>" and timeslot_id is null
 	</sql:query>
 	
-	<div class="heading">Courses</div>
-	<ul id="list">
-		<c:forEach var="row" items="${result.rows}">
-			<li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/> (<c:out value="${row.type}"/>)</li>
-		</c:forEach>
-	</ul>
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;background-color:white" id="constudent"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;background-color:white" id="conteacher"></div >
-	<div style="height:33%;width:33%;bottom:0; float: left;border:1px solid black;background-color:white" id="conclass"></div >
+	<div class="heading">Courses
 	<input type="button" value="RESET" onclick="reset()">
 	<form action="print.jsp" method='get'>
 	<input hidden="hidden" value="<%= name %>" name="batchprint"/>
 	<input type="submit" value="PRINT"/>
 	</form>
+	<form action="index.jsp" method='get'>
+	<input type="submit" value="EXIT"/>
+	</form></div>
+	<ul id="list">
+		<c:forEach var="row" items="${result.rows}">
+			<li class="drag" data-id="<c:out value="${row.course_id}"/>" data-type="<c:out value="${row.type}"/>" data-serial="<c:out value="${row.serial}"/>"><c:out value="${row.course_id}"/> (<c:out value="${row.type}"/>)</li>
+		</c:forEach>
+	</ul>
+	<div style="height:33%;width:321.5px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="constudent"></div >
+	<div style="height:33%;width:321px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="conteacher"></div >
+	<div style="height:33%;width:321px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="conclass"></div >
 </body>
 
 <div id="resetdialog" title="Are you sure?">
@@ -404,8 +417,6 @@
 	</p>
 </div>
 
-</html>
-
 <div id="classinput" title="Enter Classroom">
 	<p>Provide the classroom where this course lectures will be held below:</p>
 	<input type="text" id="classroom"/>
@@ -416,4 +427,4 @@
 <div id="conflictstudent" title="List of Students"></div>
    
 
-
+</html>
