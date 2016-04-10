@@ -25,7 +25,7 @@
 	
 	<c:forEach var="row" items="${result.rows}">
 		<sql:update dataSource="${snapshot}" var="result">
-		insert into slave value("<c:out value="${row.course_id}"/>",null,null)
+		insert into slave value("<c:out value="${row.course_id}"/>",null)
 		</sql:update>
 	</c:forEach>
 

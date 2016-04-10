@@ -14,15 +14,11 @@
 
 	<% slot_id= request.getParameter("timeslot_id"); 
       course_id= request.getParameter("course_id"); 
-      classroom= request.getParameter("classroom");
 	   pageContext.setAttribute("qwe", slot_id); 
      %>
 
      <c:choose>
 	    <c:when test="${qwe == 'list' }">
-	    	   <sql:update dataSource="${snapshot}" var="result">
-	        update slave set classroom = nUlL where course_id="<%= course_id %>" 
-	   	   </sql:update>
 	   	   <sql:update dataSource="${snapshot}" var="result">
 	        update slave set timeslot_id= nUlL where course_id="<%= course_id %>" 
 	   	   </sql:update>
@@ -30,9 +26,6 @@
 	    <c:otherwise>
 	    	   <sql:update dataSource="${snapshot}" var="result">
 	        update slave set timeslot_id="<%= slot_id %>" where course_id="<%= course_id %>" 
-	   	   </sql:update>
-	   	   <sql:update dataSource="${snapshot}" var="result">
-	        update slave set classroom= "<%= classroom %>" where course_id="<%= course_id %>"
 	   	   </sql:update>
 	    </c:otherwise>
 	</c:choose>

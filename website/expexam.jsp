@@ -16,7 +16,6 @@
 		td {
 			border: 1px solid black;
 			padding: 10px;
-			text-align: center;
 		}
 		th {
 			border: 1px solid black;
@@ -34,7 +33,7 @@
 
 </head>
 
-<body onload='document.getElementById("ta").innerHTML=sessionStorage.myVal;javascript:window.print();' onFocus='javascript:window.close();'>
+<body onload='document.getElementById("ta").innerHTML=sessionStorage.myVal;'>
 
 <sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
      url="jdbc:mysql://localhost/mydb"
@@ -52,6 +51,7 @@
 		String sem = request.getParameter("sem").toString();
 		String part = request.getParameter("part").toString();
 		String md = request.getParameter("md").toString();
+		String ta = request.getParameter("ta").toString();
 		int day = Integer.parseInt(request.getParameter("date").toString().substring(1,3));
 		int mon = Integer.parseInt(request.getParameter("date").toString().substring(4,6));
 		int yer = Integer.parseInt(request.getParameter("date").toString().substring(7,11));
@@ -62,9 +62,10 @@
 		sem = sem.substring(1,sem.length()-1);
 		part = part.substring(1,part.length()-1);
 		md = md.substring(1,md.length()-1);
+		ta = ta.substring(1,ta.length()-1);
 	%>
 	<tr><th colspan=6>Indian Institute of Technology, Indore</th></tr>
-	<tr><th colspan=6><i>Date Sheet for <%= part %> Examination, <%= yer %> <%= sem %> Semester<i></th></tr>
+	<tr><th colspan=6>Date Sheet for <%= part %> Examination, <%= yer %> <%= sem %> Semester</th></tr>
 	<tr>
 		<th>
 		Time Slot
@@ -132,6 +133,11 @@
 		}
 	%>
 	</table><br>
-	Prepared by: <%= md %><br><br>Copy to: <br><div id="ta" style="margin:0px;padding:5px;"></div>
+	Prepared by: <%= md %><br><br>Copy to: <br><div id="ta" style="margin:0px;padding:5px;"><%= ta %></div>
+<%
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "inline; filename="
+                    + "excel.xls");
+    %>
 </body>
 </html>

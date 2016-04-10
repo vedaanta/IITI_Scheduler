@@ -56,7 +56,6 @@
 			height:394px;
 			min-width: 50px;
 			width: 10%;
-			float:right;
 			text-align: center;
 			overflow:scroll;
 			background-color: white;
