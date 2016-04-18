@@ -6,6 +6,9 @@
 
 <html>
 <head>
+	<link rel="stylesheet" href="jquery-ui.css">
+    <script src="jquery.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
 
 	<style>
 		table{
@@ -31,9 +34,17 @@
 		}
 	</style>
 
+	
+	<script>
+		$(function(){
+			function go2(){
+				document.getElementById("ta").innerHTML=sessionStorage.myVal;
+			}
+		});
+	</script>
 </head>
 
-<body onload='document.getElementById("ta").innerHTML=sessionStorage.myVal;'>
+<body>
 
 <sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
      url="jdbc:mysql://localhost/mydb"

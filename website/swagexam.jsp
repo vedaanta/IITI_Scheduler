@@ -144,7 +144,7 @@
 		}
 		#ta {
 			background-color: white;
-			overflow: hidden
+			overflow: hidden;
 			width: 300px;
 			padding: 0px;
 			margin: 0px;
@@ -291,12 +291,12 @@
 			});
 		}
 		function expfn(da,datee){
-			alert(""+document.getElementById("ta").innerHTML);
+			//alert(""+document.getElementById("ta").innerHTML);
 			window.open("expexam.jsp?day="+da+"&date='"+datee+"'&fst='"+document.getElementById("fst").value+"'&fen='"+document.getElementById("fen").value+"'&ast='"+document.getElementById("ast").value+"'&aen='"+document.getElementById("aen").value+"'&sem='"+document.getElementById("sem").value+"'&part='"+document.getElementById("part").value+"'&md='"+document.getElementById("md").value+"'&ta='"+document.getElementById("ta").innerHTML+"'","_self");
 		}
 		function printfn(sa,satee){
 			sessionStorage.myVal = document.getElementById("ta").innerHTML.toString();
-			window.open("printexam.jsp?day="+sa+"&date='"+satee+"'&fst='"+document.getElementById("fst").value+"'&fen='"+document.getElementById("fen").value+"'&ast='"+document.getElementById("ast").value+"'&aen='"+document.getElementById("aen").value+"'&sem='"+document.getElementById("sem").value+"'&part='"+document.getElementById("part").value+"'&md='"+document.getElementById("md").value+"'&ta='"+document.getElementById("ta").innerText+"'");
+			window.open("printexam.jsp?day="+sa+"&date='"+satee+"'&fst='"+document.getElementById("fst").value+"'&fen='"+document.getElementById("fen").value+"'&ast='"+document.getElementById("ast").value+"'&aen='"+document.getElementById("aen").value+"'&sem='"+document.getElementById("sem").value+"'&part='"+document.getElementById("part").value+"'&md='"+document.getElementById("md").value+"'&ta='"+document.getElementById("ta").innerHTML+"'");
 		}
 		function handle(e){
 			if(e.keyCode == 13){

@@ -137,6 +137,9 @@
 				});
 				$("#courseinfo").dialog('open');
 			});
+			$(".inputtime").css('cursor','pointer').click(function(){
+				$("#taketime").dialog('open');
+			});
 			$(".drag").draggable({
 				revert:'invalid',
 				cursor:'crosshair',
@@ -196,6 +199,32 @@
 								}
 							});
 							$("#resetdialog").dialog('close');
+						}
+					}
+				]
+			});
+			$("#taketime").dialog({
+				modal:true,
+				autoOpen:false,
+				buttons:[
+					{
+						text:"Submit",
+						click:function(){
+							$.ajax({
+								type : 'POST',
+								url : 'changetime.jsp',
+								data : {
+									shour: $("#hour :selected").val(),
+									smin: $("#min :selected").val()
+								},
+								error: function(jqXHR,exception){ 
+									alert("Error: Ready State: "+jqXHR.readyState+" Status: "+jqXHR.status);
+								},
+								complete: function () {
+									location.reload(true);
+								}
+							});
+							$("#timeinput").dialog('close');
 						}
 					}
 				]
@@ -347,16 +376,27 @@
 
      <script>id3="<%= name %>";</script>
 		</th>
-		<th>8:00-9:00</th>
-		<th>9:00-10:00</th>
-		<th>10:00-11:00</th>
-		<th>11:00-12:00</th>
-		<th>12:00-1:00</th>
-		<th>1:00-2:00</th>
-		<th>2:00-3:00</th>
-		<th>3:00-4:00</th>
-		<th>4:00-5:00</th>
-		<th>5:00-6:00</th>
+
+
+		<sql:query dataSource="${snapshot}" var="result">
+			SELECT * from time;
+		</sql:query>
+		<c:forEach var="row" items="${result.rows}">
+			<c:set var="sh" value="${row.starthour}"/>
+			<c:set var="sm" value="${row.startminute}"/>
+		</c:forEach>
+
+		<c:forEach var="i" begin="0" end="9">
+		<c:choose>
+		<c:when test="${sm == 0}">
+   			<th class="inputtime"><c:out value="${sh+i}"/>:<c:out value="${sm}"/>0-<c:out value="${sh+i+1}"/>:<c:out value="${sm}"/>0</th>
+   		</c:when>
+   		<c:otherwise>
+			<th class="inputtime"><c:out value="${sh+i}"/>:<c:out value="${sm}"/>-<c:out value="${sh+i+1}"/>:<c:out value="${sm}"/></th>
+  	 	</c:otherwise>
+   		</c:choose>
+		</c:forEach>
+
 	</tr>
 	<% 
 		for(int i=0;i<5;i++){
@@ -422,6 +462,25 @@
 </div>
 
 <div id="courseinfo" title="Course Information"></div>
+
+<div id="taketime" title="Change the start time">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All batches will be get the same start hour and minute you provide below. To proceed press Submit:</p>
+	<p>
+		<select name="hour" id="hour">
+			<option value="6">6</optoin>
+			<option value="7">7</optoin>
+			<option value="8">8</optoin>
+			<option value="9">9</optoin>
+			<option value="10">10</optoin>
+		</select>:
+		<select name="min" id="min">
+			<option value="0">00</optoin>
+			<option value="15">15</optoin>
+			<option value="30">30</optoin>
+			<option value="45">45</optoin>
+		</select>
+	</p>
+</div>
 
 <div id="conflictstudent" title="List of Students"></div>
    

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.11, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: mydb
 -- ------------------------------------------------------
--- Server version	5.6.26-log
+-- Server version	5.7.11
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -142,7 +142,7 @@ CREATE TABLE `slave` (
 
 LOCK TABLES `slave` WRITE;
 /*!40000 ALTER TABLE `slave` DISABLE KEYS */;
-INSERT INTO `slave` VALUES ('BSE102',NULL),('CH103','slot5'),('CH153',NULL),('CS103','slot5'),('CS153',NULL),('CS201',NULL),('CS202',NULL),('CS203','slot7'),('CS204',NULL),('CS206','slot12'),('CS207','slot17'),('CS208','slot2'),('CS253',NULL),('CS254',NULL),('CS256',NULL),('CS257',NULL),('CS258',NULL),('CS302',NULL),('CS303','slot11'),('CS304',NULL),('CS305','slot1'),('CS306',NULL),('CS307',NULL),('CS308',NULL),('CS309',NULL),('CS352',NULL),('CS353',NULL),('CS354',NULL),('CS355',NULL),('CS356',NULL),('CS357',NULL),('CS358',NULL),('CS359',NULL),('CS402','slot13'),('CS602','slot14'),('CS702','slot24'),('EE104','slot5'),('EE154',NULL),('ES302',NULL),('HS108','slot5'),('HS159',NULL),('HS206',NULL),('HS208',NULL),('HS302',NULL),('IC211','slot32'),('MA105',NULL),('MA106',NULL),('MA203',NULL),('MA204','slot37'),('ME106',NULL),('ME153',NULL),('ME156',NULL),('PH105',NULL),('PH106',NULL),('PH156',NULL);
+INSERT INTO `slave` VALUES ('BSE102',NULL),('CH103',NULL),('CH153',NULL),('CS103','slot4'),('CS153',NULL),('CS201',NULL),('CS202',NULL),('CS203','slot2'),('CS204',NULL),('CS206',NULL),('CS207',NULL),('CS208',NULL),('CS253',NULL),('CS254',NULL),('CS256',NULL),('CS257',NULL),('CS258',NULL),('CS302',NULL),('CS303',NULL),('CS304',NULL),('CS305',NULL),('CS306',NULL),('CS307',NULL),('CS308',NULL),('CS309',NULL),('CS352',NULL),('CS353',NULL),('CS354',NULL),('CS355',NULL),('CS356',NULL),('CS357',NULL),('CS358',NULL),('CS359',NULL),('CS402',NULL),('CS602',NULL),('CS702',NULL),('EE104',NULL),('EE154',NULL),('ES302',NULL),('HS108',NULL),('HS159',NULL),('HS206',NULL),('HS208',NULL),('HS302',NULL),('IC211',NULL),('MA105',NULL),('MA106',NULL),('MA203',NULL),('MA204',NULL),('ME106',NULL),('ME153',NULL),('ME156',NULL),('PH105',NULL),('PH106',NULL),('PH156',NULL);
 /*!40000 ALTER TABLE `slave` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,6 +196,30 @@ LOCK TABLES `teacher` WRITE;
 INSERT INTO `teacher` VALUES ('CS204','Dr. Kapil Ahuja'),('CS302','Dr. Kapil Ahuja');
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `time`
+--
+
+DROP TABLE IF EXISTS `time`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `time` (
+  `starthour` int(11) NOT NULL DEFAULT '8',
+  `startminute` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`starthour`,`startminute`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `time`
+--
+
+LOCK TABLES `time` WRITE;
+/*!40000 ALTER TABLE `time` DISABLE KEYS */;
+INSERT INTO `time` VALUES (7,0);
+/*!40000 ALTER TABLE `time` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -206,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-10 15:11:28
+-- Dump completed on 2016-04-18 17:34:28
