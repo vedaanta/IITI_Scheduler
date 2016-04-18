@@ -1,5 +1,5 @@
-<%@ page import="java.io.*,java.util.*,java.sql.*"%>
-<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@ page import="java.io.*,java.util.*,java.sql.*,java.util.Date"%>
+<%@ page import="javax.servlet.http.*,javax.servlet.*,java.text.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -259,6 +259,10 @@
 				modal:true,
 				autoOpen:false
 			});
+			$("#conflictstudent").dialog({
+				modal:true,
+				autoOpen:false
+			});
 			conflict();
 		});
 
@@ -280,6 +284,21 @@
 		function reset(){
 			$("#resetdialog").dialog('open');
 		}
+
+		$(document).on('click', '.liststudent', function () {
+	        	$("#conflictstudent").dialog('open');
+	        	$.ajax({
+	        		type:'POST',
+	        		url:'liststudentexam.jsp',
+	        		data:{
+	        			course1:$(this).attr("data-c1"),
+	        			course2:$(this).attr("data-c2")
+	        		},
+	        		success:function (response){
+	        			document.getElementById("conflictstudent").innerHTML=response;
+	        		}
+	        	});
+	    });
 
 		function conflict(){
 			$.ajax({
@@ -319,8 +338,9 @@
      user="root"  password=";"/>
 
 	<table>
-	<%! int i,j,k; 
+	<%! int i,j,k=4; 
 	    String slotid;
+	    String today;
 	%>
 	<tr>
 		<th>
@@ -332,10 +352,22 @@
 	<tr><th>Year: </th><th>I Year</th><th>III Year</th><th>II Year</th><th>IV Year</th><th>MSC/MTECH/PHD</th></tr>
 	<tr><th>Day and Date</th><th colspan=2>Course Code</th><th colspan=2>Course Code</th><th>Course Code</th></tr>
 	<% 
-		k = Integer.parseInt(request.getParameter("day").toString());
-		int day = Integer.parseInt(request.getParameter("date").toString().substring(1,3));
-		int mon = Integer.parseInt(request.getParameter("date").toString().substring(4,6));
-		int yer = Integer.parseInt(request.getParameter("date").toString().substring(7,11));
+		int day = Integer.parseInt(request.getParameter("date").toString().substring(9,11));
+		int mon = Integer.parseInt(request.getParameter("date").toString().substring(6,8));
+		int yer = Integer.parseInt(request.getParameter("date").toString().substring(1,5));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		//out.print(""+request.getParameter("date").toString().substring(9,11)+"/"+request.getParameter("date").toString().substring(6,8)+"/"+request.getParameter("date").toString().substring(1,5));
+	Date d = sdf.parse(""+request.getParameter("date").toString().substring(9,11)+"/"+request.getParameter("date").toString().substring(6,8)+"/"+request.getParameter("date").toString().substring(1,5));
+		SimpleDateFormat ft = new SimpleDateFormat("EEEE");
+		today=(String)ft.format(d);
+	
+		if(today.equals("Monday"))k=2;
+		if(today.equals("Tuesday"))k=3;
+		if(today.equals("Wednesday"))k=4;
+		if(today.equals("Thursday")){k=5;}
+		if(today.equals("Friday"))k=6;
+		if(today.equals("Saturday"))k=0;
+		if(today.equals("Sunday"))k=1;
 		for(int i=0;i<8;i++){
 			out.print("<tr>\n");
 			if(k==2)out.print("<td>Monday<br>");

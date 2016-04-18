@@ -105,28 +105,14 @@
 				]
 			});
 	});
-	function refdate() {
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
-		var yyyy = today.getFullYear();
-		if(dd<10){
-			dd='0'+dd
-		} 
-		if(mm<10){
-			mm='0'+mm
-		} 
-		var today = dd+'/'+mm+'/'+yyyy;
-		document.getElementById("sysdate").value = today;
-	}
 	function examd () {
-		refdate();
 		$("#examdialog").dialog("open");
 	}
 	function returl(){
-		return "swagexam.jsp?day="+document.getElementById("sd").value+"&date=\'"+document.getElementById("sysdate").value+"\'";
+		return "swagexam.jsp?day=0&date=\'"+document.getElementById("sysdate").value+"\'";
 	}
 	</script>
+
 	
 </head>
 
@@ -148,17 +134,7 @@
 	
 	<form>
 	<table><tr><td>Starting Date</td>
-	<td><input type="text" id="sysdate" name="startdate" style="width:50%"/></td></tr>
-	<tr><td>Starting Day</td>
-	<td><select name="startday" id="sd">
-		<option value="0">Saturday</option>
-		<option value="1">Sunday</option>
-		<option value="2">Monday</option>
-		<option value="3">Tuesday</option>
-		<option value="4">Wednesday</option>
-		<option value="5">Thursday</option>
-		<option value="6">Friday</option>
-	</select></td></tr></table>
+	<td><input type="date" id="sysdate" name="startdate"/></td></tr></table>
 	</form>
 	</div>
 </body>
