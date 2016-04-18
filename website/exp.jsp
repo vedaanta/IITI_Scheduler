@@ -44,7 +44,8 @@
 
      <script>id3="<%= name %>";</script>
 		</td>
-		
+
+
 
 		<sql:query dataSource="${snapshot}" var="result">
 			SELECT * from time;
@@ -65,7 +66,7 @@
    		</c:choose>
 		</c:forEach>
 
-
+		
 	</tr>
 	<% 
 		for(int i=0;i<5;i++){

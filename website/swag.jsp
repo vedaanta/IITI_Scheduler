@@ -108,6 +108,48 @@
 			margin: 0px;
 			padding: 0px;
 		}
+		div.optCont {
+			float: left;
+			width: 331px;
+			background-color: #19384a;
+			color: white;
+			border: 1px solid #19384a;
+		}
+		table.normal {
+			border: 0px solid black;
+			background-color: transparent;
+		}
+		table.normal td{
+			width: 100px;
+			height: 20px;
+			border: none;
+			background-color: transparent;
+			text-align: left;
+			font-weight: normal;
+			color: white;
+		}
+		#taul {
+			padding: 0px;
+			margin: 20px;
+		}
+		
+		#taul .tali {
+			list-style-type: decimal;
+			color: black;
+			text-align: left;
+		}
+		
+		#taul .tali:hover {
+			color: black;
+			background-color:white;
+		}
+		#ta {
+			background-color: white;
+			overflow: hidden;
+			width: 300px;
+			padding: 0px;
+			margin: 0px;
+		}
 	</style>
 
 	<script>
@@ -330,6 +372,17 @@
 				}
 			});
 		}
+
+		
+		function handle(e){
+			if(e.keyCode == 13){
+				document.getElementById("taul").innerHTML = document.getElementById("taul").innerHTML+"<li class='tali'>"+document.getElementById("ct").value+"</li>";
+				document.getElementById("ct").value = "";
+			}
+		}
+		function clrAr(){
+			document.getElementById("taul").innerHTML = "";
+		}
 		
 
 	</script>
@@ -441,7 +494,8 @@
 	<div style="height:33%;width:321.5px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="constudent"></div >
 	<div style="height:33%;width:321px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="conteacher"></div >
 	<div style="height:33%;width:321px;bottom:0; float: left;border:1px solid #19384a;background-color:white;padding: 5px" id="conclass"></div >
-</body>
+
+
 
 <div id="resetdialog" title="Are you sure?">
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All courses for this batch will be removed from all slots!! If yes,please select the current year for this batch and press the button below.</p>
@@ -481,8 +535,13 @@
 		</select>
 	</p>
 </div>
-
 <div id="conflictstudent" title="List of Students"></div>
-   
+<div class="optCont"><b>Additional Options: </b><br><table class="normal"><tr><td>Semester:</td><td><select id="sem"><option value="Autumn">Autumn</option><option value="Spring">Spring</option></select></td></tr>
+	<tr><td>Part of Semester:</td><td><select id="part"><option value="Mid Semester">Mid Semester</option><option value="End Semester">End Semester</option></select></td></tr>
+	<tr><td>Prepared by: </td><td><input type='text' id='md' /></td></tr>
+	<tr><td>Copy to: </td><td><input type='text' id='ct' onkeypress='handle(event)' placeholder='Press Enter to Submit'/></td><td><input type="button" value="X" onclick="clrAr()"/></td></tr>
+	<tr><td colspan=3><div id='ta'><ol id='taul'></ol></div></td></tr></table>
+	</div>
+   </body>
 
 </html>
