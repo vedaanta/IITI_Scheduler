@@ -388,17 +388,19 @@
 		}
 		function expfn(){
 			//alert(""+document.getElementById("ta").innerHTML);
+			if(document.getElementById("y").value == "" || document.getElementById("md").value == "" || document.getElementById("ta").innerHTML == ""){
+				alert("Please enter the details in \"Additional Options\".");
+			}else{
 			window.open("exp.jsp?sem='"+document.getElementById("sem").value+"'&year='"+document.getElementById("y").value+"'&md='"+document.getElementById("md").value+"'&ta="+document.getElementById("ta").innerHTML+"");
+			}
 		}
 		function prnfn(){
 			sessionStorage.myVal2 = "";
-			alert("Count: "+count);
 			if(document.getElementById("y").value == "" || document.getElementById("md").value == "" || document.getElementById("ta").innerHTML == ""){
 				alert("Please enter the details in \"Additional Options\".");
 			}else{
 			var el = document.getElementsByName("cto");
 			for(i=0;i<count;i++){
-				alert("Entered");
 				sessionStorage.myVal2 = sessionStorage.myVal2+"<li>"+el[i].value+"</li>";
 			}
 			//alert(""+document.getElementById("ta").innerHTML);
