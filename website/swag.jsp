@@ -159,6 +159,8 @@
 		var id4;
 		var id5;
 		var id6;
+		var count=0;
+		var i;
 		$(function(){
 			$("li").css('cursor','pointer').click(function(){
 				$.ajax({
@@ -376,12 +378,32 @@
 		
 		function handle(e){
 			if(e.keyCode == 13){
-				document.getElementById("taul").innerHTML = document.getElementById("taul").innerHTML+"<li class='tali'>"+document.getElementById("ct").value+"</li>";
+				document.getElementById("taul").innerHTML = document.getElementById("taul").innerHTML+"<li class='tali'><input type='text' value='"+document.getElementById("ct").value+"' name='cto'/></li>";
 				document.getElementById("ct").value = "";
+				count++;
 			}
 		}
 		function clrAr(){
 			document.getElementById("taul").innerHTML = "";
+		}
+		function expfn(){
+			//alert(""+document.getElementById("ta").innerHTML);
+			window.open("exp.jsp?sem='"+document.getElementById("sem").value+"'&year='"+document.getElementById("y").value+"'&md='"+document.getElementById("md").value+"'&ta="+document.getElementById("ta").innerHTML+"");
+		}
+		function prnfn(){
+			sessionStorage.myVal2 = "";
+			alert("Count: "+count);
+			if(document.getElementById("y").value == "" || document.getElementById("md").value == "" || document.getElementById("ta").innerHTML == ""){
+				alert("Please enter the details in \"Additional Options\".");
+			}else{
+			var el = document.getElementsByName("cto");
+			for(i=0;i<count;i++){
+				alert("Entered");
+				sessionStorage.myVal2 = sessionStorage.myVal2+"<li>"+el[i].value+"</li>";
+			}
+			//alert(""+document.getElementById("ta").innerHTML);
+			window.open("print.jsp?sem="+document.getElementById("sem").value+"&year="+document.getElementById("y").value+"&md="+document.getElementById("md").value+"&ta="+document.getElementById("ta").innerHTML+"");
+			}
 		}
 		
 
@@ -479,10 +501,8 @@
 	
 	<div class="heading">Courses
 	<input type="button" value="RESET" onclick="reset()">
-	<form action="print.jsp" method='get'>
-	<input hidden="hidden" value="<%= name %>" name="batchprint"/>
-	<input type="submit" value="PRINT"/>
-	</form>
+	<input type="submit" value="EXPORT TO EXCEL" onclick='expfn()' />
+	<input type="submit" value="PRINT" onclick='prnfn()'/>
 	<form action="index.jsp" method='get'>
 	<input type="submit" value="EXIT"/>
 	</form></div>
@@ -521,23 +541,23 @@
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All batches will be get the same start hour and minute you provide below. To proceed press Submit:</p>
 	<p>
 		<select name="hour" id="hour">
-			<option value="6">6</optoin>
-			<option value="7">7</optoin>
-			<option value="8">8</optoin>
-			<option value="9">9</optoin>
-			<option value="10">10</optoin>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
 		</select>:
 		<select name="min" id="min">
-			<option value="0">00</optoin>
-			<option value="15">15</optoin>
-			<option value="30">30</optoin>
-			<option value="45">45</optoin>
+			<option value="0">00</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="45">45</option>
 		</select>
 	</p>
 </div>
 <div id="conflictstudent" title="List of Students"></div>
 <div class="optCont"><b>Additional Options: </b><br><table class="normal"><tr><td>Semester:</td><td><select id="sem"><option value="Autumn">Autumn</option><option value="Spring">Spring</option></select></td></tr>
-	<tr><td>Part of Semester:</td><td><select id="part"><option value="Mid Semester">Mid Semester</option><option value="End Semester">End Semester</option></select></td></tr>
+	<tr><td>Year:</td><td><input type='text' id='y' /></td></tr>
 	<tr><td>Prepared by: </td><td><input type='text' id='md' /></td></tr>
 	<tr><td>Copy to: </td><td><input type='text' id='ct' onkeypress='handle(event)' placeholder='Press Enter to Submit'/></td><td><input type="button" value="X" onclick="clrAr()"/></td></tr>
 	<tr><td colspan=3><div id='ta'><ol id='taul'></ol></div></td></tr></table>
